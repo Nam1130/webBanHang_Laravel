@@ -36,7 +36,8 @@
 					</p>
 				</div>
 				<div class="single-item-caption">
-					<a class="add-to-cart pull-left" href="{{route('user/addToCart',$value["id"])}}"><i class="fa fa-shopping-cart"></i></a>
+					<input class="add-to-cart pull-left fa fa-shopping-cart"  type="button"  onclick="btnAddCart({!! $value["id"] !!})">
+					<!-- <a class="add-to-cart pull-left" href="{{route('user/addToCart',$value["id"])}}"><i class="fa fa-shopping-cart" data-id="{{$value->id}}"></i></a> -->
 					<a class="beta-btn primary" href="{{route('user/detailProduct',$value['id'])}}">Details<i class="fa fa-chevron-right"></i></a>
 					<div class="clearfix"></div>
 					<div class="space40">&nbsp;</div>

@@ -1521,7 +1521,8 @@ margin-right:10px
 }
 
 .beta-dropdown {
-display:none
+display:none;
+padding: 200px;
 }
 
 .beta-components {

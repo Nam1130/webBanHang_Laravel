@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head> 
 	<meta charset="UTF-8">
@@ -28,20 +28,22 @@
 
 
 	<!-- include js files -->
+	<!-- <script src="{{ asset('public/user/assets/dest/js/scripts.min.js') }}"></script> -->
 	<script src=" {{ asset('public/user/assets/dest/js/jquery.js') }}"></script>
 	<script src="{{ asset('public/user/assets/dest/vendors/jqueryui/jquery-ui-1.10.4.custom.min.js') }}"></script>
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 	<script src="{{ asset('public/user/assets/dest/vendors/bxslider/jquery.bxslider.min.js') }}"></script>
 	<script src="{{ asset('public/user/assets/dest/vendors/colorbox/jquery.colorbox-min.js') }}"></script>
-	<script src="{{ asset('public/user/assets/dest/vendors/animo/Animo.js') }}') }}"></script>
+	<script src="{{ asset('public/user/assets/dest/vendors/animo/Animo.js') }}"></script>
 	<script src="{{ asset('public/user/assets/dest/vendors/dug/dug.js') }}"></script>
-	<script src="{{ asset('public/user/assets/dest/js/scripts.min.js') }}"></script>
+	
 	<script src="{{ asset('public/user/assets/dest/rs-plugin/js/jquery.themepunch.tools.min.js') }}"></script>
 	<script src="{{ asset('public/user/assets/dest/rs-plugin/js/jquery.themepunch.revolution.min.js') }}"></script>
 	<script src="{{ asset('public/user/assets/dest/js/waypoints.min.js') }}"></script>
 	<script src="{{ asset('public/user/assets/dest/js/wow.min.js') }}"></script>
 	<!--customjs-->
 	<script src="{{ asset('public/user/assets/dest/js/custom2.js') }}"></script>
+	<script src='https://cdn.jsdelivr.net/npm/sweetalert2'></script>
 	<script>
 		$(document).ready(function($) {    
 			$(window).scroll(function(){
@@ -51,33 +53,112 @@
 					$(".header-bottom").removeClass('fixNav')
 				}}
 				)
-		})
+		});
 
-		$(document).ready(function() {    
-			alert("message?: DOMString11111111111111");
+		
+		// $(document).ready(function() {    
+		// 	alert("message?: DOMString111");
+
+		// });
+
+		function show_cart()  
+		{  
+			$.ajax({  
+				url:"{{ route('cart/show_cart') }} ",  
+				method:"GET",  
+				success:function(data){  
+					//alert("ok");
+					console.log(data);
+					$('#showCart').html(data);  
+
+				}  
+			});  
+		} 
+
+		function succes($title) {
+			Swal.fire({
+				
+				type: 'success',
+				title: $title,
+				showConfirmButton: false,
+				timer: 1500
+			})
+		}
+
+		function error($title) {
+			Swal.fire({
+				
+				type: 'error',
+				title: $title,
+				showConfirmButton: false,
+				timer: 2000
+			})
+		}
+
+		function btnAddCart(id) {
+			//alert(id)
+			var product_id = id;
+
+			$.ajax({
+				type: "GET",
+				url: '<?php echo url('user/addToCart');?>/'+product_id,
+				success: function (data) {
+					console.log(data);
+					succes('Đã Thêm Vào Giỏ Hàng!');
+					show_cart();
+
+
+				},
+				error: function (data) {
+					console.log('Error:', data);
+				}
+			});
 			
-			$(document).on('click','.pagination a', function(event){
-				alert("sdfsdfsdf");
-				event.preventDefault();
-				var page = $(this).attr('href').split('page=')[1];
-				getPosts(page);
-				alert($(this).attr('href'));
+		};
+
+		//delete cart item
+		function btnDelCart(id) {
+			//alert(id)
+			var product_id = id;
+
+			$.ajax({
+				type: "GET",
+				url: '<?php echo url('user/deleteItemCart');?>/'+product_id,
+				success: function (data) {
+					console.log(data);
+					show_cart();
+
+				},
+				error: function (data) {
+					console.log('Error:', data);
+				}
 			});
 
-			
+		};
+		
+		function updateCart(id) {
+			var proId = id;
+			var newqty = document.getElementById("quantity").value;
+			if(newqty <=0){ error("Số lượng phải lớn hơn 0!") }
+				else {
 
-			function getPosts(page)
-			{
-				$.ajax({
-					type: "GET",
-					url: "/pagination/fetch_newProduct?page="+ page,
-					success:function(data){  
-						$('#newProduct').html(data);  
-					}  
-				});
+					$.ajax({
+						type: "GET",
+						url: '<?php echo url('cart/updateCart');?>/'+proId,
+						data: "qty=" + newqty + "& proId=" + proId,
+						success: function (data) {
+							console.log(data);
+							$('#tableCart').html(data);
+						},
+						error: function (data) {
+							console.log('Error:', data);
+						}
+					});
+				}
+
 
 			};
-		});
-	</script>
-</body>
-</html>
+
+		</script>
+	</body>
+	</html>

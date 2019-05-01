@@ -161,3 +161,21 @@ wow.init();
             /* ]]> */
 
 
+$(document).ready(function() {    
+			alert("message?: DOMString11122");
+			//show_cart();
+			// $.ajax({
+			// 	type:'post',
+			// 	url:'cart/show_cart',
+			// 	data:{
+			// 		total_cart_items:"totalitems"
+			// 	},
+			// 	success:function(response) {
+			// 		document.getElementById("total_items").value=response;
+			// 	}
+			// });
+
+
+
+			
+		});

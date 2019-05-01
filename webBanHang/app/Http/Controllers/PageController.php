@@ -16,13 +16,26 @@ class PageController extends Controller
 
 	
 	public function callIndex(Request $request){
-		if($request->ajax() || 'NULL'){
-			$slide = slide::select('id','link','image')->get()->toArray();	
-			$newProduct = products::where('new',1)->paginate(4);
-			$product =products::get()->toArray();
-			return view('user.pages.index',compact('slide','newProduct','product'));
+		
+		$slide = slide::select('id','link','image')->get()->toArray();	
+		$newProduct = products::where('new',1)->paginate(4);
+		$product =products::get()->toArray();
+		return view('user.pages.index',compact('slide','newProduct','product'));
+		
+	}
+
+//giỏ hàng Header
+	function fetch_data_ShoppingCart(Request $request)
+	{
+		if($request->ajax())
+		{
+			$data = DB::table('posts')->paginate(5);
+			return view('pagination_data', compact('data'))->render();
 		}
 	}
+
+
+
 	// public function callIndex(){
 	// 	$slide = slide::select('id','link','image')->get()->toArray();	
 	// 	$newProduct = products::where('new',1)->paginate(4);
@@ -56,7 +69,48 @@ class PageController extends Controller
 		return view('user.pages.detailProduct',compact('product','RelatedProducts','newProduct','PromotionProduct'));
 
 	}
+//ajax shopping cart
 
+
+	public function show_cart() {
+		return view('user.pages.ajax.shoppingCart');
+		
+	}
+//display cart
+	public function displayCart() {
+
+		if(Session('cart')){                                                
+			$oldCart = Session::get('cart');                                               
+			$cart = new cart($oldCart);
+		 // view()->share('user.pages.ajax.tableCart', ['cart'=>Session::get('cart'),'product_cart'=>$cart->items,'totalPrice'=> $cart->totalPrice,'totalQty'=> $cart->totalQty]);
+			
+			return view('user.pages.displayCart');
+
+		}
+
+		
+	}
+	//update cart 
+	public function updateCart(Request $request, $id)
+	{
+		$qty = $request->qty;
+		$proId = $request->proId;
+		if(Session('cart')){                                                
+			$oldCart = Session::get('cart');                                               
+			$cart = new cart($oldCart);
+
+			$cart['qty'] = $qty;
+
+		}
+		return $cart['qty'];
+		return view('user.pages.ajax.tableCart');
+
+
+
+	}
+	
+
+// end shopping cart
 
 //shopping cart
 
@@ -66,7 +120,7 @@ class PageController extends Controller
 		$cart = new cart($oldCart);				
 		$cart->add($product,$id,1);				
 		$req->session()->put('cart', $cart);				
-		return redirect()->back();				
+		//return redirect()->back();				
 
 	}
 
@@ -83,7 +137,7 @@ class PageController extends Controller
 		else{
 			Session::forget('cart');
 		}
-		return redirect()->back();
+		// return redirect()->back();
 	}
 
 //đặt hàng
@@ -124,18 +178,18 @@ class PageController extends Controller
 		$product[] =$cart->items;
 
 		
-        foreach($cart->items as $key=>$value){
-            $bill_detail = new bill_detail;
-            $bill_detail->id_bill = $bill->id;
+		foreach($cart->items as $key=>$value){
+			$bill_detail = new bill_detail;
+			$bill_detail->id_bill = $bill->id;
             $bill_detail->id_product = $key;//$value['item']['id'];
             $bill_detail->quantity = $value['qty'];
             $bill_detail->unit_price = $value['price']/$value['qty'];
             $bill_detail->save();
         }
-    Session::forget('cart');
-   
-	return redirect()->route('user/index')->with('success','Đặt hàng thành công!');
-}
+        Session::forget('cart');
+
+        return redirect()->route('user/index')->with('success','Đặt hàng thành công!');
+    }
 
 
 
@@ -143,17 +197,17 @@ class PageController extends Controller
 
 
 
-public function getAddProduct() {
-	$category = type_product::get()->toArray();
-	return view('admin.pages.product.getAddProduct', compact('category'));
-}
+    public function getAddProduct() {
+    	$category = type_product::get()->toArray();
+    	return view('admin.pages.product.getAddProduct', compact('category'));
+    }
 
-public function getEditProduct($id) {
-	$category = type_product::select('id','name')->get()->toArray();
-	$product = products::find($id);
-	$product_img = products::findOrFail($id)->get()->toArray();
-	return view('admin.pages.product.editProduct',compact('category','product','product_img'));
-}
+    public function getEditProduct($id) {
+    	$category = type_product::select('id','name')->get()->toArray();
+    	$product = products::find($id);
+    	$product_img = products::findOrFail($id)->get()->toArray();
+    	return view('admin.pages.product.editProduct',compact('category','product','product_img'));
+    }
 
 
 
@@ -161,40 +215,40 @@ public function getEditProduct($id) {
 
 
 	//category
-public function getAddCategory(){
-	return view('admin.pages.type_product.add');
-}
+    public function getAddCategory(){
+    	return view('admin.pages.type_product.add');
+    }
 
 
-public function displayCategory(){
-	$category = type_product::all();
-	return view('admin.pages.type_product.display',compact('category'));
-}
+    public function displayCategory(){
+    	$category = type_product::all();
+    	return view('admin.pages.type_product.display',compact('category'));
+    }
 
-public function getEditCategory($id){
+    public function getEditCategory($id){
 
-	$category = category::find($id);
-	return view('admin.category.pages.edit',compact('category',));
-}
+    	$category = category::find($id);
+    	return view('admin.category.pages.edit',compact('category',));
+    }
 
-public function postEditCategory($id,Request $request){
+    public function postEditCategory($id,Request $request){
 
-	$updated = DB::table('categories')
-	->where('id', '=', $id)
-	->update([
-		'name'       => $request->name,
-		'status'      =>  $request->status,
+    	$updated = DB::table('categories')
+    	->where('id', '=', $id)
+    	->update([
+    		'name'       => $request->name,
+    		'status'      =>  $request->status,
 
-	]);
+    	]);
 
-	return redirect()->route('admin.category.displayCategory')->with('success','Sửa sản phẩm thành công!');
-}
+    	return redirect()->route('admin.category.displayCategory')->with('success','Sửa sản phẩm thành công!');
+    }
 
-public function getDelete($id){
-	$category = type_product::find($id);
-	$category->delete($id);
+    public function getDelete($id){
+    	$category = type_product::find($id);
+    	$category->delete($id);
 
-	return redirect()->route('admin.category.displayCategory')->with('success','Xóa sản phẩm thành công!');
-}
+    	return redirect()->route('admin.category.displayCategory')->with('success','Xóa sản phẩm thành công!');
+    }
 
 }

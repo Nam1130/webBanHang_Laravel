@@ -55,8 +55,8 @@
 					<div class="space10">&nbsp;</div>
 					<div class="beta-comp">
 						<form role="search" method="get" id="searchform" action="/">
-					        <input type="text" value="" name="s" id="s" placeholder="Search entire store here..." />
-					        <button class="fa fa-search" type="submit" id="searchsubmit"></button>
+							<input type="text" value="" name="s" id="s" placeholder="Search entire store here..." />
+							<button class="fa fa-search" type="submit" id="searchsubmit"></button>
 						</form>
 					</div>
 
@@ -258,7 +258,7 @@
 						</tr>
 					</thead>
 					<tbody>
-					
+						
 						<tr class="cart_item">
 							<td class="product-name">
 								<div class="media">
@@ -463,17 +463,17 @@
 					</div>
 				</div>
 				<div class="col-sm-4">
-				<div class="col-sm-10">
-					<div class="widget">
-						<h4 class="widget-title">Contact Us</h4>
-						<div>
-							<div class="contact-info">
-								<i class="fa fa-map-marker"></i>
-								<p>30 South Park Avenue San Francisco, CA 94108 Phone: +78 123 456 78</p>
-								<p>Nemo enim ipsam voluptatem quia voluptas sit asnatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione.</p>
+					<div class="col-sm-10">
+						<div class="widget">
+							<h4 class="widget-title">Contact Us</h4>
+							<div>
+								<div class="contact-info">
+									<i class="fa fa-map-marker"></i>
+									<p>30 South Park Avenue San Francisco, CA 94108 Phone: +78 123 456 78</p>
+									<p>Nemo enim ipsam voluptatem quia voluptas sit asnatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione.</p>
+								</div>
 							</div>
 						</div>
-					</div>
 					</div>
 				</div>
 				<div class="col-sm-3">
@@ -513,7 +513,7 @@
 	<script src="assets/dest/js/scripts.min.js"></script>
 	<!--customjs-->
 	<script type="text/javascript">
-    $(function() {
+		$(function() {
         // this will get the full URL at the address bar
         var url = window.location.href;
 
@@ -521,8 +521,8 @@
         $(".main-menu a").each(function() {
             // checks if its the same on the address bar
             if (url == (this.href)) {
-                $(this).closest("li").addClass("active");
-				$(this).parents('li').addClass('parent-active');
+            	$(this).closest("li").addClass("active");
+            	$(this).parents('li').addClass('parent-active');
             }
         });
     });   
@@ -530,34 +530,34 @@
 
 </script>
 <script>
-	 jQuery(document).ready(function($) {
-                'use strict';
-				
+	jQuery(document).ready(function($) {
+		'use strict';
+		
 // color box
 
 //color
-      jQuery('#style-selector').animate({
-      left: '-213px'
-    });
+jQuery('#style-selector').animate({
+	left: '-213px'
+});
 
-    jQuery('#style-selector a.close').click(function(e){
-      e.preventDefault();
-      var div = jQuery('#style-selector');
-      if (div.css('left') === '-213px') {
-        jQuery('#style-selector').animate({
-          left: '0'
-        });
-        jQuery(this).removeClass('icon-angle-left');
-        jQuery(this).addClass('icon-angle-right');
-      } else {
-        jQuery('#style-selector').animate({
-          left: '-213px'
-        });
-        jQuery(this).removeClass('icon-angle-right');
-        jQuery(this).addClass('icon-angle-left');
-      }
-    });
-				});
-	</script>
+jQuery('#style-selector a.close').click(function(e){
+	e.preventDefault();
+	var div = jQuery('#style-selector');
+	if (div.css('left') === '-213px') {
+		jQuery('#style-selector').animate({
+			left: '0'
+		});
+		jQuery(this).removeClass('icon-angle-left');
+		jQuery(this).addClass('icon-angle-right');
+	} else {
+		jQuery('#style-selector').animate({
+			left: '-213px'
+		});
+		jQuery(this).removeClass('icon-angle-right');
+		jQuery(this).addClass('icon-angle-left');
+	}
+});
+});
+</script>
 </body>
 </html>

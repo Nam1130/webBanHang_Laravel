@@ -88,8 +88,8 @@ Route::group(['prefix' => 'admin/category'], function () {
 	]);
 
 }); 
-
-
+  
+ 
 Route::group(['prefix' => 'user'], function () {
 	Route::get('index', [
 		'as' 	=> 'user/index',
@@ -121,4 +121,24 @@ Route::group(['prefix' => 'user'], function () {
 		'as' 	=> 'user/postCheckOut',
 		'uses' 	=> 'PageController@postCheckOut',
 	]);
+}); 
+
+
+Route::group(['prefix' => 'cart'], function () {
+	
+	Route::get('show_cart', [
+		'as' 	=> 'cart/show_cart',
+		'uses' 	=> 'PageController@show_cart',
+	]);
+
+	Route::get('displayCart', [
+		'as' 	=> 'cart/displayCart',
+		'uses' 	=> 'PageController@displayCart',
+	]);
+
+	Route::get('updateCart/{id_product}', [
+		'as' 	=> 'cart/updateCart',
+		'uses' 	=> 'PageController@updateCart',
+	]);
+	
 }); 

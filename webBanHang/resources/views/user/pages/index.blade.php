@@ -74,28 +74,3 @@
 </div> <!-- .container -->
 @endsection
 
-@section('script')
-<script src="/javascripts/application.js" type="text/javascript" charset="utf-8" async defer>
-	
-	$(document).on('click','.pagination', function(e){
-		alert("00");
-		e.preventDefault();
-		var page = $(this).attr('href').split('page=')[1];
-		getPosts(page);
-	});
-
-	function getPosts(page)
-	{
-		$.ajax({
-			type: "GET",
-			url: '?page='+ page
-		})
-		.success(function(data) {
-			$('body').html(data);
-		});
-	}
-
-</script>
-
-
-@endsection 
